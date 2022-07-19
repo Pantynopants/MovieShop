@@ -1,4 +1,5 @@
-﻿using Infrastructure.Services;
+﻿using ApplicationCore.ServiceContracts;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using MovieShopMVC.Models;
 using System.Diagnostics;
@@ -10,9 +11,17 @@ namespace MovieShopMVC.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private  IMovieService _movieService;
+
+        //public HomeController(ILogger<HomeController> logger)
+        //{
+        //    _logger = logger;
+        //}
+
+        public HomeController(ILogger<HomeController> logger, IMovieService movieService)
         {
             _logger = logger;
+            _movieService = movieService;
         }
 
         // Action methods inside the controller
@@ -27,8 +36,8 @@ namespace MovieShopMVC.Controllers
             // we need to send the model data to the View
             // Controllers will call Services, which are gonna call Repositories
             // passing data from Controller/action methods to Views, through C# Models
-            var movieService = new MovieService();
-            var movieCards = movieService.GetTopRevenueMovies();
+            //var movieService = new MovieService();
+            var movieCards = _movieService.GetTopRevenueMovies();
             return View(movieCards);
         }
 
