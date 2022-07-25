@@ -24,10 +24,18 @@ namespace ApplicationCore.Entities
         public decimal? Price { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
-        public string UpdatedBy { get; set; }
-        public string CreatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
+        public string? CreatedBy { get; set; }
 
         public decimal? Rating { get; set; }
 
+        //a movie should have multiple trailer, a tailer belongs to one movie
+        //using linq get info
+        public ICollection<Trailer> Trailers { get; set; }
+
+        //public ICollection<Genre> Genres { get; set; }
+
+        public ICollection<MovieGenre> GenresOfMovie { get; set; }
+        public ICollection<MovieCast> CastsOfMovie { get; set; }
     }
 }

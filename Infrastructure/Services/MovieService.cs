@@ -18,11 +18,55 @@ namespace Infrastructure.Services
             _movieRepository = movieRepository;
         }
 
+        public MovieDetailsModel GetMovieDetails(int movieId)
+        {
+            var movieDetails = _movieRepository.GetById(movieId);
+
+            var movieDetailsModel = new MovieDetailsModel
+            {
+                Id = movieDetails.Id,
+                Title = movieDetails.Title,
+                PosterUrl = movieDetails.PosterUrl,
+                BackdropUrl = movieDetails.BackdropUrl,
+                OriginalLanguage = movieDetails.OriginalLanguage,
+                Overview = movieDetails.Overview,
+                Budget = movieDetails.Budget,
+                ReleaseDate = movieDetails.ReleaseDate,
+                Revenue = movieDetails.Revenue,
+                ImdbUrl = movieDetails.ImdbUrl,
+                TmdbUrl = movieDetails.TmdbUrl,
+                RunTime = movieDetails.RunTime,
+                Tagline = movieDetails.Tagline,
+                Price = movieDetails.Price
+            };
+
+            foreach (var trailer in movieDetails.Trailers)
+            {
+                movieDetailsModel.Trailers.Add(new TrailerModel
+                {
+                    Name = trailer.Name,
+                    TrailerUrl = trailer.TrailerUrl
+                });
+            }
+
+            foreach (var cast in movieDetails.CastsOfMovie)
+            {
+                movieDetailsModel.Casts.Add(new CastModel { Id = cast.CastId, Name = cast.Cast.Name, Character = cast.Character, ProfilePath = cast.Cast.ProfilePath });
+            }
+
+            foreach (var genre in movieDetails.GenresOfMovie)
+            {
+                movieDetailsModel.Genres.Add(new GenreModel { Id = genre.GenreId, Name = genre.Genre.Name });
+            }
+
+            return movieDetailsModel;
+        }
+
         public List<MovieCardModel> GetTopRevenueMovies()
         {
             // communicate with Repositories
-            var movieRepository = new MovieRepository();
-            var movies = movieRepository.GetTop30HighestRevenueMovies();
+            //var movieRepository = new MovieRepository();
+            var movies = _movieRepository.GetTop30HighestRevenueMovies();
 
             var movieCards = new List<MovieCardModel>();
             foreach (var movie in movies)
@@ -31,5 +75,10 @@ namespace Infrastructure.Services
             }
             return movieCards;
         }
+
+        //MovieCardModel IMovieService.GetMovieDetails(int movieId)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

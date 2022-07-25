@@ -1,0 +1,54 @@
+﻿@model ApplicationCore.Models.MovieDetailsModel
+
+
+
+<div class="rounded">
+    <div class="container-fluid">
+        <h1>
+           @Model.Title
+        </h1>
+        <h3>
+            @Model.Overview
+        </h3>
+
+        
+                                    <img src="@Model.PosterUrl" class="img-fluid" alt="@Model.Title" />
+        
+
+        <div class="row">
+            @foreach (var genre in @Model.Genres)
+            {
+                <div class="col-xl-2 col-sm-4 col-lg-3 col-6">
+                    <div class="card mb-4">
+                        @genre.Name
+                    </div>
+
+                </div>
+            }
+        </div>
+        <br /><br />
+        <div class="row">
+            @foreach (var trailer in @Model.Trailers)
+            {
+                <div class="col-xl-2 col-sm-4 col-lg-3 col-6">
+                    <div class="card mb-4">
+                        @trailer.Name
+                    </div>
+
+                </div>
+            }
+        </div>
+        <br /><br />
+        <div class="row">
+            @foreach (var cast in @Model.Casts)
+            {
+                <div class="col-xl-2 col-sm-4 col-lg-3 col-6">
+                    <div class="card mb-4">
+                        @cast.Name
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
